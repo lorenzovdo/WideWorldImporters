@@ -3,6 +3,14 @@ include 'mollie/vendor/autoload.php';
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+$_SESSION['UserInfo'] = array();
+$_SESSION['UserInfo']['Firstname']   = $_POST['firstname'];
+$_SESSION['UserInfo']['Infix']       = $_POST['infix'];
+$_SESSION['UserInfo']['Lastname']    = $_POST['lastname'];
+$_SESSION['UserInfo']['Email']       = $_POST['email'];
+$_SESSION['UserInfo']['Postalcode']  = $_POST['postalcode'];
+$_SESSION['UserInfo']['Housenumber'] = $_POST['housenumber'];
+
 
 $mollie = new \Mollie\Api\MollieApiClient();
 $mollie->setApiKey("test_vpxexHnQHrdVnMyqR6qwUdyD8Kcb23");
