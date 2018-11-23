@@ -43,7 +43,7 @@ if (!isset($_GET['product'])) {
                 <h2 style="margin: 0; padding: 0; padding-bottom: 5%;"><?php echo $product['naam']; ?></h2>
                 <div class="row">
                     <div class="col-md-5">
-                        <img style="width: 100%; min-height: 200px;" src="data:image/jpeg;base64,<?php echo $product['afb']; ?>"/>
+                        <img style="width: 100%; min-height: 200px;" src="Img/default.jpg"/>
                     </div>
                     <div class="col-md-7">
                         <h3>Prijs: €<?php echo $product['prijs']; ?>,-</h3><br/>

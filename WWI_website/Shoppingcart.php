@@ -10,7 +10,7 @@ include 'Header.php';
                     foreach ($_SESSION["Shoppingcart"] as $key => $value) {
                         print('<div class="col-12" style="height: 200 px; padding: 1%; padding-top: 0;">'
                                 . '<div style="background-color:#999999; width: 100%; height:100%;">'
-                                    . '<img style="width: 30%;" src="">'
+                                    . '<img style="width: 30%;" src="Img/default.jpg">'
                                     . '<div class="col-8" style="float: right;"><p> Product: ' . $value[0] . '</p>'
                                     . '<p style="display: inline-block;"> Aantal: <form action="ManageShoppingcart.php" method="post">'
                                                     . '<input type="hidden" name="id" value="'.$key.'"/>'
