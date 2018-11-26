@@ -6,7 +6,8 @@ global $pdo;
  * PDODBConn is een functie die een connectie maakt met de database.
  * Voor het maken van de connectie word de root user gebruikt.
  * De connectie word gemaakt met de wideworldimporters database op port 3306
-*/
+ */
+
 function PDODBConn() {
     try {
         global $pdo;
@@ -25,7 +26,7 @@ function PDODBConn() {
  * $query is een string waar een query word mee gegeven.
  * $params is een string met daarin de params voor de query.
  * De functie maakt gebruik van de functie PDODBConn() als er nog geen connectie met de database is.
-*/
+ */
 
 function DBQuery($query, $params) {
     global $pdo;
@@ -46,7 +47,7 @@ function DBQuery($query, $params) {
  * removeFromShoppingcart gebruik een item id die in de shoppincart staat.
  * Het item dat in de shoppincart staat word geunset.
  * Unset is een functie de gegevens uit een array verwijderd.
-*/
+ */
 
 function removeFromShoppingcart($item) {
     unset($_SESSION["Shoppingcart"][$item]);
@@ -55,7 +56,7 @@ function removeFromShoppingcart($item) {
 /*
  * increaseNumberInShoppingcart gebruik een item id die in de shoppincart staat.
  * Het aantal van het item in de shoppincart met met 1 verhoogt.
-*/
+ */
 
 function increaseNumberInShoppingcart($item) {
     $_SESSION["Shoppingcart"][$item][1] = $_SESSION["Shoppingcart"][$item][1] + 1;
@@ -66,7 +67,7 @@ function increaseNumberInShoppingcart($item) {
  * Er word eerst gekeken naar de hoeveelheid van het aantal van dit item in de shoppincart
  * Als het aantal 1 of minder is van dit item word de removeFromShoppingcart functie aangeroepen
  * Als het aantal meer dan 1 is word het aantal van dit item met 1 verlaagt.
-*/
+ */
 
 function decreaseNumberInShoppingcart($item) {
     if ($_SESSION["Shoppingcart"][$item][1] <= 1) {
@@ -76,11 +77,11 @@ function decreaseNumberInShoppingcart($item) {
     }
 }
 
-/* 
+/*
  * sendMail maakt met 2 parameters een email en stuurt hem op. 
  * $userinfo is een array met daarin de contactgegevens van de klant.
  * $ordernumber is een int met het ordernummer die bij de order hoort. 
-*/
+ */
 
 function sendMail($userinfo, $ordernumber) {
     $firstname = $userinfo['Firstname'];
@@ -113,10 +114,10 @@ function sendMail($userinfo, $ordernumber) {
     mail($to, "Bestelling ordernr: " . $ordernumber, $message, $header);
 }
 
-/* 
+/*
  * showPageSelection neemt de parameters $currentPage (int) en $pageCount (int) en toont 
  * de huidige pagina en links naar volgende en vorige pagina's waar toepasselijk 
-*/
+ */
 
 function showPageSelection($currentPage, $pageCount) {
     if ($currentPage - 2 > 1) { //terug naar eerste pagina
@@ -144,22 +145,47 @@ function showPageSelection($currentPage, $pageCount) {
     }
 }
 
-/* 
+/*
  * maakt een link aan naar de pagina met nummer $page binnen de bepaalde search en category 
-*/
+ */
 
 function createPageLink($page) {
     //begin <a> tag
     $link = "<a href=\"index.php?page=$page";
     if (filter_has_var(INPUT_GET, "search")) {
         //voeg search parameter toe als dit nodig is
-        $link .= "&search=" . $_GET["search"];
+        $link .= "&search=" . filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING);
     }
     if (filter_has_var(INPUT_GET, "category")) {
         //voeg category parameter toe als dit nodig is
-        $link .= "&category=" . $_GET["category"];
+        $link .= "&category=" . $category = filter_input(INPUT_GET, "category", FILTER_SANITIZE_STRING);
     }
     //voltooi <a> tag
     $link .= "\">$page</a> ";
     print $link;
+}
+
+/*
+ * relaySearchTerm toont de zoekterm en categorie waarop producten gefilterd worden,
+ * en het aantal weergegeven producten van het totaal aantal gevonden producten binnen de filtering
+ */
+function relaySearchTerm($limit, $resultCount, $search, $category) {
+    if (isset($search)) {
+        print("<div class=\"col-12\" style=\"height: 75px\">");
+        print("Gezocht op: '$search'");
+        if (isset($category)) {
+            print(" in $category");
+        }
+        print("<br>");
+    } elseif (isset($category)) {
+        print("<div class=\"col-12\" style=\"height: 75px\">");
+        print("Producten in $category");
+        print("<br>");
+    } else {
+        print("<div class=\"col-12\" style=\"height: 50px\">");
+        print("<br>");
+    }
+    $shown = min($limit, $resultCount);
+    print("$shown van $resultCount resultaten weergegeven");
+    print("</div>");
 }

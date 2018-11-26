@@ -50,7 +50,7 @@
                     <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     <?php if (filter_has_var(INPUT_GET, "category")) { ?>
-                        <input type="hidden" name="category" value="<?php print($_GET["category"]); ?>">
+                    <input type="hidden" name="category" value="<?php print(filter_input(INPUT_GET, "category", FILTER_SANITIZE_STRING)); ?>">
                     <?php } ?>
                 </form>
             </div>

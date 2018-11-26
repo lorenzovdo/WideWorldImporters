@@ -49,7 +49,7 @@ if (!isset($_GET['product'])) {
                         <h3>Prijs: €<?php echo $product['prijs']; ?>,-</h3><br/>
                         <p><?php echo $product['omschrijving']; ?></p><br/>
                         <br/>
-                        <form action="ProductPagina.php?product=<?php print($_GET['product']); ?>" method="post">
+                        <form action="ProductPagina.php?product=<?php print(filter_input(INPUT_GET, "product", FILTER_SANITIZE_STRING)); ?>" method="post">
                             <input type="hidden" name="id" value="<?php echo $product['id']; ?>">
                             <input type="hidden" name="name" value='<?php echo $product['naam']; ?>'>
                             <input type="hidden" name="prijs" value="<?php echo $product['prijs']; ?>">
