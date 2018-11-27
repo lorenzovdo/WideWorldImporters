@@ -183,7 +183,6 @@ function relaySearchTerm($limit, $resultCount, $search, $category) {
         print("<br>");
     } else {
         print("<div class=\"col-12\" style=\"height: 50px\">");
-        print("<br>");
     }
     $shown = min($limit, $resultCount);
     print("$shown van $resultCount resultaten weergegeven");
