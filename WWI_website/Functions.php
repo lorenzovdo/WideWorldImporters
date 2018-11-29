@@ -188,3 +188,20 @@ function relaySearchTerm($limit, $resultCount, $search, $category) {
     print("$shown van $resultCount resultaten weergegeven");
     print("</div>");
 }
+
+/*
+ * postalcodeCheck controleert of de invoerstring $postalcode volgens de nederlandse postcoderegels is
+ * return de true als de postcode correct is
+ * return false als de postcode incorrect is
+ */
+function postalcodeCheck($postalcode)
+{
+    $remove = str_replace(" ","", $postalcode);
+    $upper = strtoupper($remove);
+
+    if( preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+        return true;
+    } else {
+        return false;
+    }
+}
