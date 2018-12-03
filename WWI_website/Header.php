@@ -26,26 +26,6 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="col-lg-4">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categorie
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php
-                            $groups = DBQuery("SELECT StockGroupName FROM stockgroups", null);
-                            foreach ($groups as $key) {
-                                ?>
-                                <a class="dropdown-item"><?php print($key["StockGroupName"]); ?></a>
-                                <div class="dropdown-divider"></div>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-4">
                 <form class="form-inline my-2 my-lg-0" method="get" action="index.php">
                     <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -74,14 +54,18 @@
                             }
                             ?>
                             <div class="dropdown-divider"></div>
-                            <p>Totaal <?php echo '€' . number_format($totaalPrijs,2); ?></p>
+                            <p>Totaal <?php echo '€' . number_format($totaalPrijs, 2); ?></p>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" style="background-color: yellow" href="Shoppingcart.php">Winkelwagen inzien</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" style="background-color: greenyellow" href="LoginPage.php">Afrekenen</a>
+                            <a class="dropdown-item" style="background-color: greenyellow" href="SignUpPage.php">Afrekenen</a>
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-2">
+                <a class="navbar-brand" href="LoginAndRegister.php" style="padding-right: 15%;">Inloggen</a>
             </div>
         </div>
     </nav>

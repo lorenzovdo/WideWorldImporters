@@ -62,7 +62,7 @@
                     <?php
                     foreach ($resultQuery as $product) {
                         ?>
-                        <div class="col-4" style="height: 450px; padding: 1%; padding-top: 0;" onclick="window.location = 'ProductPagina.php?product=<?php print($product['StockItemID']); ?>';">
+                        <div class="col-4" style="height: 450px; padding: 1%; padding-top: 0;" onclick="window.location = 'ProductPage.php?product=<?php print($product['StockItemID']); ?>';">
                             <div style="background-color:#999999; width: 100%; height:100%;">
                                 <table>
                                     <tr><td><img src="Img/default.jpg" style="width: 100%; height: 40%;"></td>

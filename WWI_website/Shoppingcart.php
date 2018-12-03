@@ -41,7 +41,7 @@ include 'Header.php';
                     .'<div class="dropdown-divider"></div>'
                     .'<p>Totaalprijs (inclusief btw): €' . number_format($totaalPrijs,2) . '</p>');
                     ?>
-                    <a class="button" href="LoginPage.php">Door naar kassa</a>
+                    <a class="button" href="SignUpPage.php">Door naar kassa</a>
                 </div>
             </div>
         </div>
