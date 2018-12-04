@@ -42,6 +42,22 @@ function DBQuery($query, $params) {
     return $stmt->fetchall();
 }
 
+/*function DBQuery($query, $params) {
+    global $pdo;
+    if (!isset($pdo)) {
+        PDODBConn();
+    }
+    $stmt = $pdo->prepare($query);
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    if (is_null($params)) {
+        $stmt->execute();
+    } else {
+        $stmt->execute($params);
+    }
+	$result = $stmt->fetchall();
+    return $result;
+}*/
+
 /*
  * removeFromShoppingcart gebruik een item id die in de shoppincart staat.
  * Het item dat in de shoppincart staat word geunset.
@@ -76,10 +92,10 @@ function decreaseNumberInShoppingcart($item) {
     }
 }
 
-/* 
- * sendMail maakt met 2 parameters een email en stuurt hem op. 
+/*
+ * sendMail maakt met 2 parameters een email en stuurt hem op.
  * $userinfo is een array met daarin de contactgegevens van de klant.
- * $ordernumber is een int met het ordernummer die bij de order hoort. 
+ * $ordernumber is een int met het ordernummer die bij de order hoort.
 */
 
 function sendMail($userinfo, $ordernumber) {
@@ -113,9 +129,9 @@ function sendMail($userinfo, $ordernumber) {
     mail($to, "Bestelling ordernr: " . $ordernumber, $message, $header);
 }
 
-/* 
- * showPageSelection neemt de parameters $currentPage (int) en $pageCount (int) en toont 
- * de huidige pagina en links naar volgende en vorige pagina's waar toepasselijk 
+/*
+ * showPageSelection neemt de parameters $currentPage (int) en $pageCount (int) en toont
+ * de huidige pagina en links naar volgende en vorige pagina's waar toepasselijk
 */
 
 function showPageSelection($currentPage, $pageCount) {
@@ -144,8 +160,8 @@ function showPageSelection($currentPage, $pageCount) {
     }
 }
 
-/* 
- * maakt een link aan naar de pagina met nummer $page binnen de bepaalde search en category 
+/*
+ * maakt een link aan naar de pagina met nummer $page binnen de bepaalde search en category
 */
 
 function createPageLink($page) {
@@ -155,11 +171,44 @@ function createPageLink($page) {
         //voeg search parameter toe als dit nodig is
         $link .= "&search=" . $_GET["search"];
     }
-    if (filter_has_var(INPUT_GET, "category")) {
+    if (filter_has_var(INPUT_GET, "cat")) {
         //voeg category parameter toe als dit nodig is
-        $link .= "&category=" . $_GET["category"];
+		foreach($_GET["cat"] as $add) {//FILTER_SANITIZE_STRING
+			$link .= "&cat%5B%5D=".$add;
+		}
     }
     //voltooi <a> tag
     $link .= "\">$page</a> ";
     print $link;
+}
+
+/*
+ * Deze functie stuurt een query naar de database om de categorieën op te halen.
+ * De resultaten worden verwerkt in een array waarbij de key het ID van de categorie is
+ * en value de naam van de categorie.
+ */
+function getCategories() {
+	$q_result = DBQuery("SELECT StockGroupID, StockGroupName FROM stockgroups", null);
+	$categories = array();
+
+	foreach($q_result as $cat) {
+		$categories[$cat["StockGroupID"]] = $cat["StockGroupName"];
+	}
+
+	return $categories;
+}
+
+/*
+ * Deze functie ontvangt een array met integers. Deze integers worden in een string gezet.
+ * Elk getal wordt gescheiden d.m.v. een komma. Het laatste getal wordt niet bijgevuld met een komma.
+ * Deze functie is bedoeld voor het gebruik kunnen maken van de SQL vergelijking "IN".
+ */
+function arrayToIN($array) {
+	$in = "";
+	foreach ($array as $i => $item)
+	{
+		$in .= "$item,";
+	}
+	$in = rtrim($in,",");
+	return $in;
 }

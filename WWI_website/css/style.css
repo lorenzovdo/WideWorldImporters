@@ -1,0 +1,75 @@
+/* 1280×720 */
+
+body {
+	min-width: 1280px;
+	background-color: #dfdfdf;
+}
+
+.main-container {
+	margin: 0;
+	margin-top: 2%;
+}
+
+/*
+ * Header.php
+*/
+
+.navbar-custom {
+    background-color: #2042d0;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255,.7);
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
+/*
+ * index.php
+*/
+
+.shadow {
+	box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0px 4px 8px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cat-header {
+	font-size: 1.5rem;
+	font-weight: 500;
+	text-align: center;
+}
+
+.cat-form-check {
+	padding-bottom: 5px;
+}
+
+.form-check-input {
+	width: 1em;
+	height: 1em;
+}
+
+.cat-footer {
+	text-align: center;
+}
+
+.margin-b2 {
+	margin-bottom: 2%;
+}
+
+.product-item {
+	//background-color: #e0e0e0;
+	min-height: 250px;
+	box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0px 4px 8px 0 rgba(0, 0, 0, 0.19);
+	margin-bottom: 5%;
+}
+
+.product-item-title {
+	height: 2em;
+}
