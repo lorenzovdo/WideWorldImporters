@@ -40,8 +40,16 @@ include 'Header.php';
                     .'<p>Verzending: Gratis</p>'
                     .'<div class="dropdown-divider"></div>'
                     .'<p>Totaalprijs (inclusief btw): €' . number_format($totaalPrijs,2) . '</p>');
+                    
+                    if(isset($_SESSION['userinfo']))
+                    {
+                        ?><?php
+                    }
+                    else
+                    {
+                        ?><a class="button" href="SignUpPage.php">Door naar kassa</a><?php
+                    }
                     ?>
-                    <a class="button" href="SignUpPage.php">Door naar kassa</a>
                 </div>
             </div>
         </div>

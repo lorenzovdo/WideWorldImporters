@@ -58,14 +58,29 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" style="background-color: yellow" href="Shoppingcart.php">Winkelwagen inzien</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" style="background-color: greenyellow" href="SignUpPage.php">Afrekenen</a>
+                            <?php
+                            if($totaalPrijs > 0){
+                                if(isset($_SESSION['userinfo'])){
+                                    ?><a class="dropdown-item" style="background-color: greenyellow" href="ConfirmPage.php">Afrekenen</a><?php
+                                }else
+                                {
+                                    ?><a class="dropdown-item" style="background-color: greenyellow" href="SignUpPage.php">Afrekenen</a><?php
+                                }
+                            }
+                            ?>
                         </div>
                     </li>
                 </ul>
             </div>
-            <div class="col-lg-2"></div>
             <div class="col-lg-2">
-                <a class="navbar-brand" href="LoginAndRegister.php" style="padding-right: 15%;">Inloggen</a>
+                <?php
+                    if(isset($_SESSION['userinfo'])){
+                        echo '<a class="navbar-brand" href="" style="padding-right: 15%;">Hallo '.$_SESSION['userinfo']['firstname'] .' '.$_SESSION['userinfo']['infix'].' '.$_SESSION['userinfo']['lastname'].'</a>';
+                    }
+                    else{
+                        echo'<a class="navbar-brand" href="LoginAndRegister.php" style="padding-right: 15%;">Inloggen</a>';
+                    }
+                ?>
             </div>
         </div>
     </nav>

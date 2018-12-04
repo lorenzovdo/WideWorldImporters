@@ -113,6 +113,28 @@ function sendMail($userinfo, $ordernumber) {
     mail($to, "Bestelling ordernr: " . $ordernumber, $message, $header);
 }
 
+function sendRegisterMail($firstname, $infix, $lastname, $email) {
+    $from = "Info@WideWorldImporters.com";
+    $to = $email;
+    $bcc = null;
+
+    $header = "FROM: " . $from . "\r\n" .
+            "Reply-To: " . $from . "\r\n" .
+            "Return-Path: " . $from . "\r\n" .
+            "Message-ID: <" . time() . "." . $from . ">\r\n" .
+            "BCC: " . $bcc;
+
+    $message = "Bedankt voor aanmaken van een account bij Wide World Importers.\r\n"
+            . "Via deze email word het account geactiveerd.\r\n\r\n"
+            . "Gegevens:\r\n"
+            . "Voornaam: " . $firstname . "\r\n"
+            . "Tussenvoegsel: " . $infix . "\r\n"
+            . "Achternaam: " . $lastname . "\r\n"
+            . "Email: " . $email . "\r\n";
+    //mail is een php functie die een email verstuurd naar het email adres.
+    mail($to, "Register mail", $message, $header);
+}
+
 /* 
  * showPageSelection neemt de parameters $currentPage (int) en $pageCount (int) en toont 
  * de huidige pagina en links naar volgende en vorige pagina's waar toepasselijk 

@@ -46,7 +46,8 @@ if ($passwordOne == $passwordTwo) {
                 . "'" . $streetname . "',"
                 . "'" . $housenumber . "')", null);
         echo 'gegevens succesvol opgeslagen activeer account nu met de email';
-        header('Location: SignUpPage.php');
+        sendRegisterMail($firstname,$infix,$lastname,$email);
+        header('Location: LoginAndRegister.php');
     } else {
         echo 'Email adres is al in gebruik';
         header('Location: RegisterPage.php');
