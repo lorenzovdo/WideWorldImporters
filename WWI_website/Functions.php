@@ -23,7 +23,7 @@ function PDODBConn() {
 /*
  * DBQuery is een functie die een query maakt.
  * $query is een string waar een query word mee gegeven.
- * $params is een string met daarin de params voor de query.
+ * $params is een array met daarin de params voor de query.
  * De functie maakt gebruik van de functie PDODBConn() als er nog geen connectie met de database is.
 */
 

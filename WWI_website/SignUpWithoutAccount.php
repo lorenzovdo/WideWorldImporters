@@ -8,6 +8,12 @@ and open the template in the editor.
 include 'Header.php';
 ?>
 <html>
+    <body
+        <br><br>
+        <div class="row justify-content-md-center" style="align-items: center">
+            <img src="Img/gegevens.png" width="50%" height="50%;">
+        </div>
+    </body>
     <body>
         <div class="row justify-content-md-center" style="align-items:  center">
             <form action="CheckoutPage.php" method="post">
@@ -19,7 +25,7 @@ include 'Header.php';
             <div class="col-4" style="margin-bottom: 2%;margin-top: 2%">Huisnummer:</div> <input class="col-3"type="number" name="housenumber"style="margin-bottom: 2%;margin-top: 2%;width: 600px"><br>
             <input class="col-4"type="submit" value="Verder"style="margin-bottom: 2%;margin-top: 2%">
         </form></div>
-    </body>
+    </body> 
     <?php
     include"footer.php";
     ?>
