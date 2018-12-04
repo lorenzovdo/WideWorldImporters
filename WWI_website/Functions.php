@@ -42,22 +42,6 @@ function DBQuery($query, $params) {
     return $stmt->fetchall();
 }
 
-/*function DBQuery($query, $params) {
-    global $pdo;
-    if (!isset($pdo)) {
-        PDODBConn();
-    }
-    $stmt = $pdo->prepare($query);
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    if (is_null($params)) {
-        $stmt->execute();
-    } else {
-        $stmt->execute($params);
-    }
-	$result = $stmt->fetchall();
-    return $result;
-}*/
-
 /*
  * removeFromShoppingcart gebruik een item id die in de shoppincart staat.
  * Het item dat in de shoppincart staat word geunset.
@@ -99,12 +83,12 @@ function decreaseNumberInShoppingcart($item) {
 */
 
 function sendMail($userinfo, $ordernumber) {
-    $firstname = $userinfo['Firstname'];
-    $infix = $userinfo['Infix'];
-    $lastname = $userinfo['Lastname'];
-    $email = $userinfo['Email'];
-    $postalcode = $userinfo['Postalcode'];
-    $housenumber = $userinfo['Housenumber'];
+    $firstname = $userinfo['firstname'];
+    $infix = $userinfo['infix'];
+    $lastname = $userinfo['lastname'];
+    $email = $userinfo['email'];
+    $postalcode = $userinfo['postalcode'];
+    $housenumber = $userinfo['housenumber'];
 
     $from = "Info@WideWorldImporters.com";
     $to = $email;
@@ -127,6 +111,28 @@ function sendMail($userinfo, $ordernumber) {
             . "Huisnummer: " . $housenumber . "";
     //mail is een php functie die een email verstuurd naar het email adres.
     mail($to, "Bestelling ordernr: " . $ordernumber, $message, $header);
+}
+
+function sendRegisterMail($firstname, $infix, $lastname, $email) {
+    $from = "Info@WideWorldImporters.com";
+    $to = $email;
+    $bcc = null;
+
+    $header = "FROM: " . $from . "\r\n" .
+            "Reply-To: " . $from . "\r\n" .
+            "Return-Path: " . $from . "\r\n" .
+            "Message-ID: <" . time() . "." . $from . ">\r\n" .
+            "BCC: " . $bcc;
+
+    $message = "Bedankt voor aanmaken van een account bij Wide World Importers.\r\n"
+            . "Via deze email word het account geactiveerd.\r\n\r\n"
+            . "Gegevens:\r\n"
+            . "Voornaam: " . $firstname . "\r\n"
+            . "Tussenvoegsel: " . $infix . "\r\n"
+            . "Achternaam: " . $lastname . "\r\n"
+            . "Email: " . $email . "\r\n";
+    //mail is een php functie die een email verstuurd naar het email adres.
+    mail($to, "Register mail", $message, $header);
 }
 
 /*
@@ -173,7 +179,7 @@ function createPageLink($page) {
     }
     if (filter_has_var(INPUT_GET, "cat")) {
         //voeg category parameter toe als dit nodig is
-		foreach($_GET["cat"] as $add) {//FILTER_SANITIZE_STRING
+		foreach($_GET["cat"] as $add) {
 			$link .= "&cat%5B%5D=".$add;
 		}
     }
@@ -211,4 +217,42 @@ function arrayToIN($array) {
 	}
 	$in = rtrim($in,",");
 	return $in;
+}
+
+/*
+ * Deze functie voegt een "anonymous" user toe aan de session
+ * Hierdoor hoeft de gebruiker niet in te loggen maar zijn de gegevens nog bekend voor mail etc.
+ */
+function createAnonymousUser()
+{
+    $_SESSION['anonymousUser'] = array();
+    $_SESSION['anonymousUser']['firstname'] = $_POST['firstname'];
+    $_SESSION['anonymousUser']['infix'] = $_POST['infix'];
+    $_SESSION['anonymousUser']['lastname'] = $_POST['lastname'];
+    $_SESSION['anonymousUser']['email'] = $_POST['email'];
+    $_SESSION['anonymousUser']['postalcode'] = $_POST['postalcode'];
+    $_SESSION['anonymousUser']['housenumber'] = $_POST['housenumber'];
+}
+
+/*
+ * Deze functie print een lijst met de gebruiker zijn informatie.
+ * Als de gebruiker ingelogd is worden de gegevens van de ingelogde gebruiker gebruikt.
+ * Indien de gebruiker niet ingelogd is, worden de gegevens gebruikt die eerder
+ * aangemaakt zijn via de functie "createAnonymousUser".
+ */
+function getUserInfo() {
+    if (isset($_SESSION['userinfo'])) {
+        echo '<p style="text-align: center">Voornaam: ' . $_SESSION['userinfo']['firstname'] . '</p>'
+        . '<p style="text-align: center">Tussenvoegsel: ' . $_SESSION['userinfo']['infix'] . '</p>'
+        . '<p style="text-align: center">Achternaam: ' . $_SESSION['userinfo']['lastname'] . '</p>'
+        . '<p style="text-align: center">Postcode: ' . $_SESSION['userinfo']['postalcode'] . '</p>'
+        . '<p style="text-align: center">Huisnummer: ' . $_SESSION['userinfo']['housenumber'] . '</p>';
+    }
+    else {
+        echo '<p style="text-align: center">Voornaam: ' . $_SESSION['anonymousUser']['firstname'] . '</p>'
+        . '<p style="text-align: center">Tussenvoegsel: ' . $_SESSION['anonymousUser']['infix'] . '</p>'
+        . '<p style="text-align: center">Achternaam: ' . $_SESSION['anonymousUser']['lastname'] . '</p>'
+        . '<p style="text-align: center">Postcode: ' . $_SESSION['anonymousUser']['postalcode'] . '</p>'
+        . '<p style="text-align: center">Huisnummer: ' . $_SESSION['anonymousUser']['housenumber'] . '</p>';
+    }
 }

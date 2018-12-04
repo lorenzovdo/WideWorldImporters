@@ -28,22 +28,22 @@
             if (filter_has_var(INPUT_GET, "search")) {
                 $search = "'%".filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING)."%'";
 				$categoriesQuery = arrayToIN($selected_categories);
-                $resultQuery = DBQuery("SELECT si.StockItemID, stockitemname, unitprice FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) AND searchdetails LIKE $search LIMIT $limit OFFSET $offset", null);
-                $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) AND searchdetails LIKE $search", null);
+                $resultQuery = DBQuery("SELECT DISTINCT si.StockItemID, stockitemname, unitprice FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) AND searchdetails LIKE $search LIMIT $limit OFFSET $offset", null);
+                $resultCount = DBQuery("SELECT COUNT(DISTINCT si.StockItemID) count FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) AND searchdetails LIKE $search", null);
             } else {
 				$categoriesQuery = arrayToIN($selected_categories);
-                $resultQuery = DBQuery("SELECT si.StockItemID, stockitemname, unitprice FROM stockitems si JOIN stockitemstockgroups sig ON si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) LIMIT $limit OFFSET $offset", null);
-                $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems si JOIN stockitemstockgroups sig ON si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery)", null);
+                $resultQuery = DBQuery("SELECT DISTINCT si.StockItemID, stockitemname, unitprice FROM stockitems si JOIN stockitemstockgroups sig ON si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) LIMIT $limit OFFSET $offset", null);
+                $resultCount = DBQuery("SELECT COUNT(DISTINCT si.StockItemID) count FROM stockitems si JOIN stockitemstockgroups sig ON si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery)", null);
             }
         } elseif (filter_has_var(INPUT_GET, "search")) {
             $search = "'%".filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING)."%'";
             $resultQuery = DBQuery("SELECT StockItemID, stockitemname, unitprice FROM stockitems WHERE searchdetails LIKE $search LIMIT $limit OFFSET $offset", null);
-            $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems WHERE searchdetails LIKE $search", null);
+            $resultCount = DBQuery("SELECT COUNT(*) count FROM stockitems WHERE searchdetails LIKE $search", null);
         } else {
 			$resultQuery = DBQuery("SELECT StockItemID, stockitemname, unitprice FROM stockitems LIMIT $limit OFFSET $offset", null);
-            $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems", null);
+            $resultCount = DBQuery("SELECT COUNT(*) count FROM stockitems", null);
         }
-        $resultCount = $resultCount[0]["COUNT(*)"];
+        $resultCount = $resultCount[0]["count"];
         $pageCount = ceil($resultCount / $limit);
         ?>
         <div class="row justify-content-md-center main-container">
@@ -97,14 +97,14 @@
                     foreach ($resultQuery as $product) {
                         ?>
 						<div class="col-4">
-							<div class="card product-item" onclick="window.location = 'ProductPagina.php?product=<?php print($product['StockItemID']); ?>';">
+							<div class="card product-item">
 								<img class="card-img-top" src="img/default.jpg" alt="Card image cap">
 								<div class="card-body">
 									<h5 class="card-title product-item-title"><?php echo $product["stockitemname"]; ?></h5>
 								</div>
 								<div class="card-footer">
 									<p class="card-text float-left"><?php echo "€" . $product["unitprice"]; ?></p>
-									<a href="ProductPagina.php?product=<?php print($product['StockItemID']); ?>" class="btn btn-primary float-right">Bekijken</a>
+									<a href="ProductPage.php?product=<?php print($product['StockItemID']); ?>" class="btn btn-primary float-right">Bekijken</a>
 								</div>
 							</div>
 						</div>

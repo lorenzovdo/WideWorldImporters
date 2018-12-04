@@ -42,31 +42,44 @@
 			</ul>
 			<ul class="navbar-nav mr-5">
 				<li class="nav-item mr-3">
-					<a class="nav-link" href="LoginAndRegister.php" >Inloggen</a>
+					<?php
+					if(isset($_SESSION['userinfo'])){
+						echo '<a class="nav-link" href="Logout.php">Hallo '.$_SESSION['userinfo']['firstname'] .' '.$_SESSION['userinfo']['infix'].' '.$_SESSION['userinfo']['lastname'].'</a>';
+					} else {
+						?><a class="nav-link" href="LoginAndRegister.php">Inloggen</a><?php
+					}
+					?>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						tekst
-						<!--<img src="Img/winkelwagen.jpg" height="20%" width="20%"/>-->
+					<a class="nav-link dropdown-toggle pb-0 pt-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<img src="Img/winkelwagen.png" height="40px" width="40px"/>
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 						<?php
 						$totaalPrijs = null;
 						foreach ($_SESSION["Shoppingcart"] as $key => $value) {
 							if (strlen($value[0]) > 18) {
 								$value[0] = substr($value[0], 0, 18) . '...';
 							}
-							print("<p>" . $value[0] . " " . $value[1] . "</p>");
+							print('<p class="dropdown-item">' . $value[0] . ' ' . $value[1] . '</p>');
 							$prijs = $value[1] * $value[2];
 							$totaalPrijs = $totaalPrijs + $prijs;
 						}
 						?>
 						<div class="dropdown-divider"></div>
-						<p>Totaal <?php echo '€' . number_format($totaalPrijs, 2); ?></p>
+						<p class="dropdown-item">Totaal <?php echo '€' . number_format($totaalPrijs, 2); ?></p>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" style="background-color: yellow" href="Shoppingcart.php">Winkelwagen inzien</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" style="background-color: greenyellow" href="SignUpPage.php">Afrekenen</a>
+						<?php
+						if($totaalPrijs > 0){
+							if(isset($_SESSION['userinfo'])){
+								?><a class="dropdown-item" style="background-color: greenyellow" href="ConfirmPage.php">Afrekenen</a><?php
+							} else {
+								?><a class="dropdown-item" style="background-color: greenyellow" href="SignUpPage.php">Afrekenen</a><?php
+							}
+						}
+						?>
 					</div>
 				</li>
 			</ul>
