@@ -6,6 +6,9 @@ and open the template in the editor.
 -->
 <?php
 include 'header.php';
+if (isset($_POST['firstname'])) {
+    createAnonymousUser();
+}
 ?>
 <html>
     <body>
@@ -14,11 +17,7 @@ include 'header.php';
                 <div class="row">
                     <div class="col-12" style="height: 200 px; padding: 1%; padding-top: 0;">
                         <div style="background-color:#999999; width: 100%; height:100%;">
-                            <p style="text-align: center">Voornaam: <?php echo $_SESSION['userinfo']['firstname']; ?></p>
-                            <p style="text-align: center">Tussenvoegsel: <?php echo $_SESSION['userinfo']['infix']; ?></p>
-                            <p style="text-align: center">Achternaam: <?php echo $_SESSION['userinfo']['lastname']; ?></p>
-                            <p style="text-align: center">Postcode: <?php echo $_SESSION['userinfo']['postalcode']; ?></p>
-                            <p style="text-align: center">Huisnummer: <?php echo $_SESSION['userinfo']['housenumber']; ?></p>
+                            <?php getUserInfo();?>
                         </div>
                     </div>
                 </div>
@@ -37,6 +36,9 @@ include 'header.php';
                     }
                     ?>
                 </div>
+                <form action="CheckoutPage.php" method="post">
+                    <input class="col-4"type="submit" value="Verder"style="margin-bottom: 2%;margin-top: 2%">
+                </form>
             </div>
     </body>
 </html>

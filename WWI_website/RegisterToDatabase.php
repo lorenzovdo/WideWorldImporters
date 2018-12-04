@@ -41,7 +41,7 @@ if ($passwordOne == $passwordTwo) {
                 . "'" . $lastname . "',"
                 . "'" . $birthdate . "',"
                 . "'" . $email . "',"
-                . "'" . $passwordOne . "',"
+                . "'" . password_hash($passwordOne, PASSWORD_BCRYPT). "',"
                 . "'" . $postalcode . "',"
                 . "'" . $streetname . "',"
                 . "'" . $housenumber . "')", null);

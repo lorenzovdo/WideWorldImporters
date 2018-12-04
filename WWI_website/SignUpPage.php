@@ -14,7 +14,7 @@ include 'Header.php';
                     <input type="text" name="email" placeholder="Email"/><br>
                     <p>Wachtwoord</p>
                     <input type="password" name="password" placeholder="Wachtwoord"/><br><br><br>
-                    <input type="submit" name="submit" value="Inloggen"/>
+                    <input type="submit" name="submit" value="Login"/>
                 </form>
             </div>
             <div class="col-1" style="border-left: 3px solid black">

@@ -75,10 +75,10 @@
             <div class="col-lg-2">
                 <?php
                     if(isset($_SESSION['userinfo'])){
-                        echo '<a class="navbar-brand" href="" style="padding-right: 15%;">Hallo '.$_SESSION['userinfo']['firstname'] .' '.$_SESSION['userinfo']['infix'].' '.$_SESSION['userinfo']['lastname'].'</a>';
+                        echo '<a class="navbar-brand" href="Logout.php" style="padding-right: 15%;">Hallo '.$_SESSION['userinfo']['firstname'] .' '.$_SESSION['userinfo']['infix'].' '.$_SESSION['userinfo']['lastname'].'</a>';
                     }
                     else{
-                        echo'<a class="navbar-brand" href="LoginAndRegister.php" style="padding-right: 15%;">Inloggen</a>';
+                        ?><a class="navbar-brand" href="LoginAndRegister.php" style="padding-right: 15%;">Inloggen</a><?php
                     }
                 ?>
             </div>
