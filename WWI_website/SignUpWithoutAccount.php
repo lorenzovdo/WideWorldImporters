@@ -13,9 +13,9 @@ include 'Header.php';
             <div class="col-3">
                 <div style="background-color: red">
                     <?php
-                    if (isset($_SESSION["correctData"])) {
+                    if (isset($_SESSION["invalidData"])) {
                         print("Er is iets misgegaan, probeer het nog eens");
-                        unset($_SESSION["correctData"]);
+                        unset($_SESSION["invalidData"]);
                     }
                     ?>
                 </div>
