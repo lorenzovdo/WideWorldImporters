@@ -20,6 +20,7 @@
         <div class="" style="background-color:#EEEEEE; border: 1px solid black; margin-left: 25%; margin-right: 25%; height: 500px;">
             <?php
             if ($payment->isPaid()) {
+                makeOrder();
                 echo "<h3>Betaling succesvol verlopen</h3><br>"
                 ."<h3>Bedankt dat u gekozen heeft voor Wide World Importers.</h3><br>";
                 if(isset($_SESSION['userinfo']))

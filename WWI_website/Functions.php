@@ -187,8 +187,7 @@ function createPageLink($page) {
     print $link;
 }
 
-function createAnonymousUser()
-{
+function createAnonymousUser() {
     $_SESSION['anonymousUser'] = array();
     $_SESSION['anonymousUser']['firstname'] = $_POST['firstname'];
     $_SESSION['anonymousUser']['infix'] = $_POST['infix'];
@@ -205,12 +204,23 @@ function getUserInfo() {
         . '<p style="text-align: center">Achternaam: ' . $_SESSION['userinfo']['lastname'] . '</p>'
         . '<p style="text-align: center">Postcode: ' . $_SESSION['userinfo']['postalcode'] . '</p>'
         . '<p style="text-align: center">Huisnummer: ' . $_SESSION['userinfo']['housenumber'] . '</p>';
-    } 
-    else {
+    } else {
         echo '<p style="text-align: center">Voornaam: ' . $_SESSION['anonymousUser']['firstname'] . '</p>'
         . '<p style="text-align: center">Tussenvoegsel: ' . $_SESSION['anonymousUser']['infix'] . '</p>'
         . '<p style="text-align: center">Achternaam: ' . $_SESSION['anonymousUser']['lastname'] . '</p>'
         . '<p style="text-align: center">Postcode: ' . $_SESSION['anonymousUser']['postalcode'] . '</p>'
         . '<p style="text-align: center">Huisnummer: ' . $_SESSION['anonymousUser']['housenumber'] . '</p>';
+    }
+}
+
+function makeOrder() {
+    global $pdo;
+    PDODBConn();
+    $date = date('Y-m-d');
+    $order = DBQuery("INSERT INTO `weborders` values (null, " . $_SESSION['userinfo']['id'] . ", \" ". $date."\")", null);
+    $orderID = $pdo->lastInsertId();
+    foreach ($_SESSION['Shoppingcart'] as $key => $value) {
+        DBQuery("INSERT INTO `itemsInOrder` values (" . $orderID . "," . $key . ", " . $value[1] . ")", null);
+        DBQuery("UPDATE `stockitemholdings` SET `QuantityOnHand` = `QuantityOnHand` - ".$value[1]." WHERE `StockItemID` = ".$key." ", null);
     }
 }
