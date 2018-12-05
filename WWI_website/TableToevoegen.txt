@@ -1,0 +1,13 @@
+CREATE TABLE `wideworldimporters.Rating` (
+  `UserID` INT NOT NULL,
+  `StockItemID` INT(11) NOT NULL,
+  `StarRating` INT(5) NULL,
+  `Review` VARCHAR(200) NULL,
+  PRIMARY KEY (`UserID`, `StockItemID`),
+  INDEX StockItemID_idx (`StockItemID` ASC) VISIBLE,
+  CONSTRAINT `StockItemID`
+    FOREIGN KEY (`StockItemID`)
+    REFERENCES `wideworldimporters.stockitems` (`StockItemID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+	
