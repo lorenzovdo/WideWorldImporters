@@ -34,7 +34,7 @@ include 'Header.php';
                     <?php
                     $totaalPrijs = null;
                     foreach ($_SESSION["Shoppingcart"] as $key => $value) {
-                        $totaalPrijs = $totaalPrijs + number_format($value[2] * $value[1],2);
+                        $totaalPrijs = $totaalPrijs + ($value[2] * $value[1]);
                     }
                     print('<p>Subtotaal: €' . number_format($totaalPrijs,2) . '</p>'
                     .'<p>Verzending: Gratis</p>'

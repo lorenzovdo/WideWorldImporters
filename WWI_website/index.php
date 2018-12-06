@@ -5,6 +5,15 @@
         include 'Header.php';
         PDODBConn();
 
+        //$resultQueryCategory = DBQuery("SELECT stockgroupname FROM stockgroups", null);
+        $categories = getCategories();
+        $selected_categories = array();
+        if (filter_has_var(INPUT_GET, "cat")) {
+            foreach ($_GET["cat"] as $cat_id) {
+                array_push($selected_categories, filter_var($cat_id, FILTER_SANITIZE_NUMBER_INT));
+            }
+        }
+
         $offset = 0;
         $limit = 6;
         if (filter_has_var(INPUT_GET, "page")) {
@@ -13,73 +22,99 @@
         } else {
             $currentPage = 1;
         }
-
         $search = null;
-        $searchCategory = null;
         #categorie zoeken
-        if (filter_has_var(INPUT_GET, "category")) {
-            $searchCategory = filter_input(INPUT_GET, "category", FILTER_SANITIZE_STRING);
+        if (filter_has_var(INPUT_GET, "cat")) {
             if (filter_has_var(INPUT_GET, "search")) {
-                $search = filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING);
-                $resultQuery = DBQuery("SELECT si.StockItemID, stockitemname, unitprice, photo FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid "
-                        . "JOIN stockgroups sg on sig.stockgroupid=sg.stockgroupid where stockgroupname = '$searchCategory' AND searchdetails LIKE '%$search%' LIMIT $limit  OFFSET $offset", null);
-                $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid "
-                        . "JOIN stockgroups sg on sig.stockgroupid=sg.stockgroupid where stockgroupname = '$searchCategory' AND searchdetails LIKE '%$search%'", null);
+                $search = "'%" . filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING) . "%'";
+                $categoriesQuery = arrayToIN($selected_categories);
+                $resultQuery = DBQuery("SELECT DISTINCT si.StockItemID, stockitemname, unitprice FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) AND searchdetails LIKE $search LIMIT $limit OFFSET $offset", null);
+                $resultCount = DBQuery("SELECT COUNT(DISTINCT si.StockItemID) count FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) AND searchdetails LIKE $search", null);
             } else {
-                $resultQuery = DBQuery("SELECT si.StockItemID, stockitemname, unitprice, photo FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid JOIN stockgroups sg on sig.stockgroupid=sg.stockgroupid where stockgroupname = '$searchCategory' LIMIT $limit  OFFSET $offset", null);
-                $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems si JOIN stockitemstockgroups sig on si.stockitemid=sig.stockitemid JOIN stockgroups sg on sig.stockgroupid=sg.stockgroupid where stockgroupname = '$searchCategory'", null);
+                $categoriesQuery = arrayToIN($selected_categories);
+                $resultQuery = DBQuery("SELECT DISTINCT si.StockItemID, stockitemname, unitprice FROM stockitems si JOIN stockitemstockgroups sig ON si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery) LIMIT $limit OFFSET $offset", null);
+                $resultCount = DBQuery("SELECT COUNT(DISTINCT si.StockItemID) count FROM stockitems si JOIN stockitemstockgroups sig ON si.stockitemid=sig.stockitemid WHERE stockgroupid IN ($categoriesQuery)", null);
             }
         } elseif (filter_has_var(INPUT_GET, "search")) {
-            $search = filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING);
-            $resultQuery = DBQuery("SELECT StockItemID, stockitemname, unitprice, photo FROM stockitems WHERE searchdetails LIKE '%$search%' LIMIT $limit  OFFSET $offset", null);
-            $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems WHERE searchdetails LIKE '%$search%'", null);
+            $search = "'%" . filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING) . "%'";
+            $resultQuery = DBQuery("SELECT StockItemID, stockitemname, unitprice FROM stockitems WHERE searchdetails LIKE $search LIMIT $limit OFFSET $offset", null);
+            $resultCount = DBQuery("SELECT COUNT(*) count FROM stockitems WHERE searchdetails LIKE $search", null);
         } else {
-            $resultQuery = DBQuery("SELECT StockItemID, stockitemname, unitprice, photo FROM stockitems LIMIT $limit OFFSET $offset", null);
-            $resultCount = DBQuery("SELECT COUNT(*) FROM stockitems", null);
+            $resultQuery = DBQuery("SELECT StockItemID, stockitemname, unitprice FROM stockitems LIMIT $limit OFFSET $offset", null);
+            $resultCount = DBQuery("SELECT COUNT(*) count FROM stockitems", null);
         }
-        $resultCount = $resultCount[0]["COUNT(*)"];
+        $resultCount = $resultCount[0]["count"];
         $pageCount = ceil($resultCount / $limit);
         ?>
-        <div class="row justify-content-md-center" style="margin: 0; margin-top: 3%;">
-            <div class="col-2" style="padding-right: 2%;">
-                <div style="background-color:#EEEEEE; border: 1px solid black;">
-                    <h3 style="text-align:center;">Categorieën</h3>
-                    <?php
-                    $resultQueryCategory = DBQuery("SELECT stockgroupname FROM stockgroups", null);
-                    foreach ($resultQueryCategory as $category) {
-                        ?>
-                        <form method="get" action="index.php">
-                            <img src="Img/<?php print($category["stockgroupname"]); ?>.jpg" style="width: 10%; height: 10%;"><input type="submit" name="category" value="<?php print($category["stockgroupname"]); ?>">
-                        </form>
-                        <br>
-                        <?php
-                    }
-                    ?>
+        <div class="row justify-content-md-center main-container">
+            <div class="col-2">
+                <div class="card shadow">
+                    <form method="get" action="index.php">
+                        <div class="card-header cat-header">Categorieën</div>
+                        <div class="card-body">
+                            <?php
+                            foreach ($categories as $cat_id => $cat_name) {
+                                ?>
+                                <div class="form-check cat-form-check">
+                                    <input class="form-check-input" type="checkbox" name="cat[]" value="<?php print($cat_id); ?>" id="<?php print($cat_name); ?>" <?php if (in_array($cat_id, $selected_categories)) {
+                                print("checked");
+                            } ?>>
+                                    <label class="form-check-label" for="<?php print($cat_name); ?>">
+                                        <img src="Img/<?php print($cat_name); ?>.jpg" style="width: 10%; height: 10%;">
+                                <?php print($cat_name); ?>
+                                    </label>
+                                </div>
+                                <?php
+                            }
+                            if (filter_has_var(INPUT_GET, "search")) {
+                                print('<input type="hidden" name="search" value="' . filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING) . '" />');
+                            }
+                            ?>
+                        </div>
+                        <div class="card-footer cat-footer">
+                            <button type="submit" class="btn btn-primary">Toepassen</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="col-7"><!--style="background-color:#AAAAAA"-->
+            <div class="col-7">
                 <div class="row">
-
-                    <?php 
-                    relaySearchTerm($limit, $resultCount, $search, $searchCategory);
+                    <div class="col-12 margin-b2">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                Geselecteerde categorieën:
+                                <?php
+                                foreach ($selected_categories as $counter => $cat_id) {
+                                    $tekst = " " . $categories[$cat_id];
+                                    if (count($selected_categories) != $counter + 1) {
+                                        $tekst .= ",";
+                                    }
+                                    echo $tekst;
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
                     foreach ($resultQuery as $product) {
                         ?>
-                        <div class="col-4" style="height: 450px; padding: 1%; padding-top: 0;" onclick="window.location = 'ProductPagina.php?product=<?php print($product['StockItemID']); ?>';">
-                            <div style="background-color:#999999; width: 100%; height:100%;">
-                                <table>
-                                    <tr><td><img src="Img/default.jpg" style="width: 100%; height: 40%;"></td>
-                                    <tr><td><?php
-                                            print($product["stockitemname"]);
-                                            print("    -   € " . $product["unitprice"]);
-                                            ?> </td></tr>
-                                </table>
+                        <div class="col-4">
+                            <div class="card product-item">
+                                <img class="card-img-top" src="img/default.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title product-item-title"><?php echo $product["stockitemname"]; ?></h5>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="card-text float-left"><?php echo "€" . $product["unitprice"]; ?></p>
+                                    <a href="ProductPage.php?product=<?php print($product['StockItemID']); ?>" class="btn btn-primary float-right">Bekijken</a>
+                                </div>
                             </div>
-                        </div>                       
+                        </div>
                         <?php
                     }
                     ?>
-                    <div class="col-12" style="text-align: center"> 
-                        <?php showPageSelection($currentPage, $pageCount); ?>
+                    <div class="col-12" style="text-align: center">
+<?php showPageSelection($currentPage, $pageCount); ?>
                     </div>
                 </div>
             </div>
