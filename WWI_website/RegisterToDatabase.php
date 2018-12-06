@@ -20,8 +20,8 @@ $postalcode = filter_input(INPUT_POST, "postalcode", FILTER_SANITIZE_STRING);
 $streetname = filter_input(INPUT_POST, "streetname", FILTER_SANITIZE_STRING);
 $housenumber = filter_input(INPUT_POST, "housenumber", FILTER_SANITIZE_STRING);
 
-if ($firstname == "" || $lastname == "" || $birthdate == "" || $email == "" || $passwordOne == "" || $passwordTwo == "" || $postalcode == "" || $streetname == "" || $housenumber == "" || !postalcodeCheck(filter_input(INPUT_POST, "postalcode"))) {
-    $_SESSION["invalidData"] = true;
+if ($firstname == "" || $lastname == "" || $birthdate == "" || $email == "" || $passwordOne == "" || $passwordTwo == "" || $postalcode == "" || $streetname == "" || $housenumber == "" || !postalcodeCheck($postalcode)) {
+    $_SESSION["invalidRegister"] = "Niet alle velden zijn goed ingevuld";
     header('Location: RegisterPage.php');
     exit;
 }
@@ -55,11 +55,11 @@ if ($passwordOne == $passwordTwo) {
         sendRegisterMail($firstname, $infix, $lastname, $email);
         header('Location: LoginAndRegister.php');
     } else {
-        $_SESSION["emailTaken"] = true;
+        $_SESSION["invalidRegister"] = "Het opgegeven emailadres is al in gebruik";
         header('Location: RegisterPage.php');
     }
 } else {
-    $_SESSION["differentPass"] = true;
+    $_SESSION["invalidRegister"] = "Je hebt twee verschillende wachtwoorden ingevuld";
     header('Location: RegisterPage.php');
 }
 //header('locationindex.php');

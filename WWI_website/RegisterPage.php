@@ -13,17 +13,9 @@ include 'Header.php';
             <div class="col-4">
                 <div style="background-color: red">
                     <?php
-                    if (isset($_SESSION["invalidData"])) {
-                        print("Niet alle velden zijn goed ingevuld");
-                        unset($_SESSION["invalidData"]);
-                    }
-                    if (isset($_SESSION["emailTaken"])) {
-                        print("Het opgegeven emailadres is al in gebruik");
-                        unset($_SESSION["differentPass"]);
-                    }
-                    if (isset($_SESSION["differentPass"])) {
-                        print("Je hebt twee verschillende wachtwoorden ingevuld");
-                        unset($_SESSION["differentPass"]);
+                    if (isset($_SESSION["invalidRegister"])) {
+                        print($_SESSION["invalidRegister"]);
+                        unset($_SESSION["invalidRegister"]);
                     }
                     ?>
                 </div>
