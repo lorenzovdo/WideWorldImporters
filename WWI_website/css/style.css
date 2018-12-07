@@ -1,0 +1,214 @@
+/* 1280×720 */
+
+body {
+	min-width: 1280px;
+	background-color: #dfdfdf;
+}
+
+.main-container {
+	margin: 0;
+	margin-top: 2%;
+}
+
+hr.divider {
+	border: 0;
+	border-top: 2px solid rgba(0,0,0,.2);
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+/*
+ * Header.php
+ */
+
+.navbar-custom {
+    background-color: #2042d0;
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255,.8);
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255,.7);
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
+.winkelwagen-dropdown {
+	width: 300px;
+}
+
+.winkelwagen-header {
+	font-size: 1em;
+}
+
+.winkelwagen-item {
+	text-align: left;
+}
+
+/*
+ * index.php
+ */
+
+.shadow {
+	box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0px 4px 8px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cat-header {
+	font-size: 1.5rem;
+	font-weight: 500;
+	text-align: center;
+}
+
+.cat-form-check {
+	padding-bottom: 5px;
+}
+
+.form-check-input {
+	width: 1em;
+	height: 1em;
+}
+
+.cat-footer {
+	text-align: center;
+}
+
+.margin-b2 {
+	margin-bottom: 2%;
+}
+
+.list-product-item {
+	//background-color: #e0e0e0;
+	min-height: 250px;
+	box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2), 0px 4px 8px 0 rgba(0, 0, 0, 0.19);
+	margin-bottom: 5%;
+}
+
+.list-product-item-title {
+	height: 2em;
+}
+
+/*
+ * ProductPage.php
+ */
+hr.product-divider {
+	border: 0;
+	border-top: 2px solid rgba(0,0,0,.2);
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+}
+
+img.product-image {
+	//height: 400px;
+}
+
+.product-form {
+	bottom: 0;
+}
+
+.product-video {
+	text-align: center;
+}
+
+.product-carousel {
+	background-color: #dedede;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+	height: 100px;
+	width: 100px;
+	outline: black;
+	background-size: 100%, 100%;
+	background-image: none;
+	background-color: rgba(0,0,0,.4);
+}
+
+.carousel-control-next-icon:after
+{
+	content: '>';
+	font-size: 55px;
+	color: rgba(1,1,1,1);
+}
+
+.carousel-control-prev-icon:after {
+	content: '<';
+	font-size: 55px;
+	color: rgba(1,1,1,1);
+}
+
+/*
+ * ProductPage.php --> Rating
+ */
+* {
+	box-sizing: border-box;
+}
+
+
+.heading {
+	font-size: 25px;
+	margin-right: 25px;
+}
+
+.fa {
+	font-size: 25px;
+}
+
+.checked {
+	color: orange;
+}
+
+/* Three column layout */
+.side {
+	float: left;
+	width: 15%;
+	margin-top:10px;
+}
+
+.middle {
+	margin-top:10px;
+	float: left;
+	width: 70%;
+}
+
+/* Place text to the right */
+.right {
+	text-align: right;
+}
+
+/* Clear floats after the columns */
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+/* Individual bars */
+.bar-5 {height: 18px; background-color: #4CAF50;}
+.bar-4 {height: 18px; background-color: #2196F3;}
+.bar-3 {height: 18px; background-color: #00bcd4;}
+.bar-2 {height: 18px; background-color: #ff9800;}
+.bar-1 {height: 18px; background-color: #f44336;}
+
+/* The bar container */
+.bar-container {
+	width: 100%;
+	background-color: #f1f1f1;
+	text-align: center;
+	color: white;
+}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+	.side, .middle {
+		width: 100%;
+	}
+	.right {
+		display: none;
+	}
+}
