@@ -1,4 +1,4 @@
-create table `users`(
+create table `user`(
 userID int not null auto_increment,
 firstname varchar(50) not null,
 infix varchar(50),
