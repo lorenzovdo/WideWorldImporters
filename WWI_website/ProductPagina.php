@@ -15,7 +15,7 @@ if (isset($_POST['bestellen'])) {
         $_SESSION['Shoppingcart'][$_POST['id']][1] = $_POST['aantal'];
         $_SESSION['Shoppingcart'][$_POST['id']][2] = $_POST['prijs'];
     }
-    
+
     $_POST = array();
 }
 include 'Header.php';
@@ -38,8 +38,8 @@ if (!isset($_GET['product'])) {
         <title>WWI | <?php echo $product['naam']; ?></title>
     </head>
     <body>
-        <div class="row justify-content-md-center" style="margin: 0; margin-top: 3%;">
-            <div class="col-md-6" style="padding: 2%; background-color: #EEEEEE;"><!--style="background-color:#AAAAAA"-->
+        <div class="row justify-content-md-center main-container">
+            <div class="col-md-6 shadow" style="padding: 2%; background-color: #EEEEEE;"><!--style="background-color:#AAAAAA"-->
                 <h2 style="margin: 0; padding: 0; padding-bottom: 5%;"><?php echo $product['naam']; ?></h2>
                 <div class="row">
                     <div class="col-md-5">

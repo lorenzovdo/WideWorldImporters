@@ -17,28 +17,28 @@
         $mollie->setApiKey("test_vpxexHnQHrdVnMyqR6qwUdyD8Kcb23");
         $payment = $mollie->payments->get($_SESSION['payment_id']);
         ?>
-        <div class="" style="background-color:#EEEEEE; border: 1px solid black; margin-left: 25%; margin-right: 25%; height: 500px;">
-            <?php
-            if ($payment->isPaid()) {
-                makeOrder();
-                echo "<h3>Betaling succesvol verlopen</h3><br>"
-                ."<h3>Bedankt dat u gekozen heeft voor Wide World Importers.</h3><br>";
-                if(isset($_SESSION['userinfo']))
-                {
-                    sendMail($_SESSION['userinfo'], $_SESSION['payment_id']);
-                }
-                else
-                {
-                    sendMail($_SESSION['anonymousUser'], $_SESSION['payment_id']);
-                }
-                echo "<p style='text-align: center'>Gegevens:<p>";
-             getUserInfo();
-            } else {
-                echo "Betaling niet succesvol verlopen<br>"
-                ."<h3></h3>";
-            }
-            ?>
-        </div>
+		<div class="row justify-content-md-center main-container">
+			<div class="col-md-6 rounded shadow center-text" style="background-color:#EEEEEE; height: 500px;">
+				<?php
+				if ($payment->isPaid()) {
+					makeOrder();
+					echo '<br><h3>Betaling succesvol verlopen</h3><br>'
+					.'<h3>Bedankt dat u gekozen heeft voor Wide World Importers.</h3><br>';
+					if(isset($_SESSION['userinfo']))
+					{
+						sendMail($_SESSION['userinfo'], $_SESSION['payment_id']);
+					}
+					else
+					{
+						sendMail($_SESSION['anonymousUser'], $_SESSION['payment_id']);
+					}
+				} else {
+					echo "Betaling niet succesvol verlopen<br>"
+					."<h3></h3>";
+				}
+				?>
+			</div>
+		</div>
     </body>
     <?php
     unset($_SESSION['Shoppingcart']);

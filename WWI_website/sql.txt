@@ -1,0 +1,68 @@
+create table imgForItem(
+StockItemID int not null,
+FileName varchar(100) not null,
+Type varchar(50) not null,
+ordern int,
+primary key (StockItemID, FileName, type),
+foreign key(StockItemID) references stockitems(StockItemID)
+)
+
+
+
+INSERT INTO imgForItem VALUES (1, 'img/afbeelding1.png', 'img', 1),
+(1, 'img/afbeelding2.png', 'img', 2),
+(1, 'img/afbeelding3.png', 'img', 3),
+(1, 'img/afbeelding4.png', 'img', 4)
+
+INSERT INTO imgForItem VALUES (2, 'img/afbeelding1.png', 'img', 1),
+(2, 'img/afbeelding2.png', 'img', 2),
+(2, 'img/afbeelding3.png', 'img', 3),
+(2, 'img/afbeelding4.png', 'img', 4)
+
+INSERT INTO imgForItem VALUES (3, 'img/afbeelding2.png', 'img', 1),
+(3, 'img/afbeelding4.png', 'img', 2),
+(3, 'img/afbeelding3.png', 'img', 3),
+(3, 'img/omg.mp4', 'video/mp4', null)
+
+
+
+create table mainimgForItem(
+StockItemID int not null,
+MainImage varchar(100) not null,
+primary key (StockItemID),
+foreign key(StockItemID) references stockitems(StockItemID)
+)
+
+INSERT INTO mainimgForItem VALUES (1, 'img/afbeelding2.png'),
+(2, 'img/afbeelding1.png'),
+(3, 'img/afbeelding4.png'),
+(4, 'img/afbeelding3.png'),
+(5, 'img/afbeelding2.png'),
+(6, 'img/afbeelding1.png')
+
+
+
+drop table itemsinorder;
+drop table weborders;
+
+Create table weborders(
+OrderID Int not null AUTO_INCREMENT,
+UserID int,
+Date date not null,
+Firstname varchar(45),
+Infix varchar(45),
+Lastname varchar(45),
+Postalcode varchar(45),
+Housenumber varchar(45),
+primary key(OrderID),
+foreign key (UserID) references user(userID)
+);
+
+create table itemsInOrder(
+OrderID int not null,
+StockItemID int(11) not null,
+Amount int not null,
+primary key(OrderID, StockItemID),
+foreign key(OrderID) references weborders(OrderID),
+foreign key(StockItemID) references stockitems(StockItemID)
+);
